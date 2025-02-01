@@ -14,11 +14,11 @@ pipeline {
                 script {
                     echo 'Deploying application...'
                     // Create the deployment directory using cmd
-                    bat "mkdir \\"${WORKSPACE}\\pythonappdeploy\\""
+                    bat "mkdir \"${WORKSPACE}\\pythonappdeploy\""
                     // Verify the existence of app.py
                     bat "dir ${WORKSPACE}"
                     // Copy the app.py file
-                    bat "copy \\"${WORKSPACE}\\app.py\\" \\"${WORKSPACE}\\pythonappdeploy\\\\""
+                    bat "copy \"${WORKSPACE}\\app.py\" \"${WORKSPACE}\\pythonappdeploy\\\""
                 }
             }
         }
