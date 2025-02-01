@@ -13,12 +13,12 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying application...'
-                    // // Create the deployment directory using cmd
-                    // bat "mkdir \"${WORKSPACE}\\python-app-deploy\""
-                    // // Verify the existence of app.py
-                    // bat "dir ${WORKSPACE}"
-                    // // Copy the app.py file
-                    // bat "copy \"${WORKSPACE}\\app.py\" \"${WORKSPACE}\\python-app-deploy\\\""
+                    // Create the deployment directory using cmd
+                    bat "mkdir \\"${WORKSPACE}\\python-app-deploy\\""
+                    // Verify the existence of app.py
+                    bat "dir ${WORKSPACE}"
+                    // Copy the app.py file
+                    bat "copy \\"${WORKSPACE}\\app.py\\" \\"${WORKSPACE}\\python-app-deploy\\\\""
                 }
             }
         }
