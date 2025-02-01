@@ -1,42 +1,39 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
-                script {
-                    echo 'Building application...'
-                }
+                echo 'Installing dependencies...'
+                sh 'pip install -r requirements.txt'
             }
         }
-
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'python3 -m unittest discover'
+            }
+        }
         stage('Deploy') {
             steps {
-                script {
-                    echo 'Deploying application...'
-                    // Create the deployment directory using cmd
-                    bat "mkdir \"${WORKSPACE}\\pythonappdeploy\""
-                    // Verify the existence of app.py
-                    bat "dir ${WORKSPACE}"
-                    // Copy the app.py file
-                    bat "copy \"${WORKSPACE}\\app.py\" \"${WORKSPACE}\\pythonappdeploy\\\""
-                }
+                echo 'Deploying application...'
+                sh 'mkdir -p python-app-deploy && cp app.py python-app-deploy/'
             }
         }
-
         stage('Run Application') {
             steps {
-                script {
-                    echo 'Running application...'
-                }
+                echo 'Running application...'
+                sh 'nohup python3 python-app-deploy/app.py > app.log 2>&1 &'
             }
         }
+    }
 
-        stage('Test Application') {
-            steps {
-                script {
-                    echo 'Testing application...'
-                }
-            }
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs.'
         }
     }
 }
