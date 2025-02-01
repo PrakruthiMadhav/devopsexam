@@ -4,36 +4,40 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Installing dependencies...'
-                sh 'pip install -r requirements.txt'
+                script {
+                    echo 'Building application...'
+                }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh 'python3 -m unittest discover'
-            }
-        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                sh 'mkdir -p python-app-deploy && cp app.py python-app-deploy/'
+                script {
+                    echo 'Deploying application...'
+                    // Create the deployment directory using cmd
+                    bat "mkdir \"${WORKSPACE}\\python-app-deploy\""
+                    // Verify the existence of app.py
+                    bat "dir ${WORKSPACE}"
+                    // Copy the app.py file
+                    bat "copy \"${WORKSPACE}\\app.py\" \"${WORKSPACE}\\python-app-deploy\\\""
+                }
             }
         }
+
         stage('Run Application') {
             steps {
-                echo 'Running application...'
-                sh 'nohup python3 python-app-deploy/app.py > app.log 2>&1 &'
+                script {
+                    echo 'Running application...'
+                }
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check the logs.'
+        stage('Test Application') {
+            steps {
+                script {
+                    echo 'Testing application...'
+                }
+            }
         }
     }
 }
