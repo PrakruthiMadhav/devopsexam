@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Creating virtual environment and installing dependencies...'
                 sh '''
-                python3 -m venv venv
+                python -m venv venv
                 source venv/bin/activate
                 pip install -r requirements.txt
                 '''
